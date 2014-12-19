@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="secure_login MYSQL" uuid="c53bb132-709c-43ed-9f14-84e58ac9e7ff">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>secure_login.*</schema-pattern>
+      <default-schemas>secure_login.*</default-schemas>
+    </data-source>
+  </component>
+</project>
+
