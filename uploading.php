@@ -13,8 +13,10 @@ if (login_check($mysqli) !== true) {
 	return;
 }
 
+// By default, the requested directory is the user's root, which in this code equals a blank string
 $requestedDirectory = "";
 
+// Load and validate the requested directory. If the requested directory doesn't exist, we fall back to the user's root.
 $userRequestingDirectory = isset($_GET['dir']);
 if ($userRequestingDirectory) {
 	$requestedDirectory = "/" . $_GET['dir'];
@@ -92,6 +94,7 @@ if ($userRequestingDirectory) {
 							// We're putting this in a buffer so we can append folders to the top and files to the bottom
 							$outputTable = "";
 
+                            // Requested directory with appended forward slash, but only if the directory isn't the users root
 							$appendedRequestedDirectory = $requestedDirectory == "" ? "" : $requestedDirectory . "/";
 
 							// Check if the user has ANY files: if so, we put them in a table!
@@ -100,12 +103,15 @@ if ($userRequestingDirectory) {
 								while (false !== ($entry = readdir($handle))) {
 									// We don't need to show the top levels
 									if ($entry != "." && $entry != "..") {
-										// Get the file modified time, and format it the european way (woo europe)
+										// Generate the filepath
 										$filePath = 'files/' . $userID . "/" .  $appendedRequestedDirectory . $entry;
+                                        // Get the file modified time, and format it as a human readable string
 										$fileUploaded = date("d-m-Y H:i:s", filemtime($filePath));
+                                        // Get the formatted filesize
 										$fileSize = filesize($filePath) == 0 ? "-" : formatSizeUnits(filesize($filePath));
+                                        // Get the filetype
 										$fileType = is_dir($filePath) ? "folder" : pathinfo($filePath, PATHINFO_EXTENSION);
-										// Print it out in a table
+										// Generate the table row
 										$toAppend = "							
 										<tr>
 											<td>$entry</td>
@@ -124,7 +130,7 @@ if ($userRequestingDirectory) {
 										}
 									}
 								}
-
+                                // Output the table in the HTML
 								echo $outputTable;
 								?>
 							</tbody>

@@ -27,17 +27,22 @@ if (!startsWith($requestedFile, "files/" . $currentUserID)) {
 	die("You are not authorized to delete this file/folder.");
 }
 
+// Don't do anything if the file doesn't exist
 if (!file_exists($requestedFile)) {
 	header('Location: /uploading.php');
 	exit;
 }
 
+// Different actions for deleting folders and files
 if (is_dir($requestedFile)) {
-	echo "BOOM";
+    // Delete folder contents
 	array_map('unlink', glob("$requestedFile/*"));
+    // Delete the now empty directory
 	rmdir($requestedFile);
 } else {
+    // Delete the file
 	unlink($requestedFile);
 }
 
+// Redirect to the file overview page
 header('Location: /uploading.php');

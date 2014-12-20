@@ -224,6 +224,7 @@ function change_password($oldpassword, $password, $passwordconfirm, $mysqli)
     }
 }
 
+// Format bytes in byte, bytes, KB, MB or GB's
  function formatSizeUnits($bytes)
     {
         if ($bytes >= 1073741824)

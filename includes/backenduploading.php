@@ -24,14 +24,17 @@ class BackEndUploading
     public function uploadFile()
     {
         $userDetail = $this->getUserDetails();
+        // Calculate the target directory
         $targetDirectory = $_POST['dir'] == "" ? '../files/' . $userDetail['user_id'] . "/" : '../files/' . $userDetail['user_id'] . "/" . $_POST['dir'];
 
         if (!file_exists($targetDirectory)) {
 			mkdir($targetDirectory);// create user's folder if it doesn't exist yet
 		}
-		
+
+        // Move the file from the temp location to it's new home
         move_uploaded_file($_FILES['myFile']['tmp_name'], $targetDirectory . "/" . $_FILES['myFile']['name']);
 
+        // Redirect to the file overview page for the target dir
         header('Location: /uploading.php?dir=' . $_POST['dir']);
     }
 }

@@ -27,11 +27,14 @@ if (!startsWith($requestedFile, "files/" . $currentUserID)) {
 	die("You are not authorized to create this folder.");
 }
 
+// If this directory exists, do nothing
 if (file_exists($requestedFile)) {
 	header('Location: /uploading.php');
 	exit;
 }
 
+// Create the new directory
 mkdir($requestedFile);
 
+// Redirect to the file overview page
 header('Location: /uploading.php');
